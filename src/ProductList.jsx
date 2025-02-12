@@ -4,7 +4,6 @@ import CartItem from './CartItem';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({});
 
     const plantsArray = [
         {
@@ -237,7 +236,15 @@ function ProductList() {
     e.preventDefault();
     setShowCart(true); // Set showCart to true when cart icon is clicked
 };
-const handlePlantsClick = (e) => {
+    const [addedToCart, setAddedToCart] = useState({});
+    const handleAddToCart = (product) => {
+        dispatchEvent(addItem(product));
+        setAddedToCart((prevState) => ({
+            ...prevState,
+            [product.name]: true,
+        }));
+    };
+    const handlePlantsClick = (e) => {
     e.preventDefault();
     setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
     setShowCart(false); // Hide the cart when navigating to About Us
@@ -277,6 +284,8 @@ const handlePlantsClick = (e) => {
                             <div className="product-card" key={plantIndex}>
                                 <img className="product-image" src={plant.image} alt={plant.name} />
                                 <div className="product-title">{plant.name}</div>
+                                <div className="product-description"><i>{plant.description}</i></div>
+                                <div className="product-cost">{plant.cost}</div>
                                 <button className="product-button" onClick={() => handleAddToCart(plant)}>Add To Cart</button>
                         </div>
                         ))}
